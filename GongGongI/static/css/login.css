@@ -1,0 +1,18 @@
+.login-item {
+    text-align: center;
+  }
+  
+  .login-item img {
+    margin-bottom: 10px;
+  }
+  
+  .login-item a {
+    text-decoration: none;
+    color: #212529;
+  }
+  
+  .login-item a:hover {
+    text-decoration: none;
+    color: rgba(255, 94, 62, 1);
+  }
+  
