@@ -106,10 +106,16 @@
 
                             <div class="form-group">
                                 <select class="custom-select">
-                                    <option selected=""> 1일차</option>
-                                    <option value="1">One</option>
+                                    <option selected=""> 미지정</option>
+
                                     <option value="2">Two</option>
                                     <option value="3">Three</option>
+
+                                    {% for day in days %}
+
+                                    <option value="1">{{ day.name }}</option>
+
+                                    {% endfor %}
                                 </select>
                             </div>
 
@@ -119,22 +125,17 @@
                                 >
                                     관광지1 <span class="badge badge-primary badge-pill">X</span>
                                 </li>
-                                
-                                
+
+                                {% for place in places %}
+
                                 <li
                                     class="list-group-item d-flex justify-content-between align-items-center"
                                 >
-                                    관광지1 <span class="badge badge-primary badge-pill">X</span>
+                                    {{ place.name }}
+                                    <span class="badge badge-primary badge-pill">X</span>
                                 </li>
-                      
-                                          
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-center"
-                                >
-                                    관광지1 <span class="badge badge-primary badge-pill">X</span>
-                                </li>
-                                
-                                
+
+                                {% endfor %}
                             </ul>
 
                             <button type="button" class="btn btn-primary btn-lg btn-block">
