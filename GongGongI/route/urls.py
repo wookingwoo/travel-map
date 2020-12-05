@@ -5,5 +5,7 @@ urlpatterns = [
     
     path('', views.index),
     path('map/', views.map),
+    path('navbar/', views.navbar),
+
 
 ]

@@ -19,3 +19,10 @@ def map(request):
             'wjh_test': 'wjh_test20201204',
         }
     )
+
+
+def navbar(request):
+    return render(
+        request,
+        'map/navbar.html',
+    )
