@@ -7,6 +7,9 @@ urlpatterns = [
 
     path('map/', views.map),
     path('navbar/', views.navbar),
+    
+
+    path('addPlace/', views.addPlace, name='placesave'),
 
 
 ]

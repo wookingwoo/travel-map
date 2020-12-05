@@ -106,6 +106,8 @@
 
                             <div class="form-group">
                                 <select class="custom-select">
+                                    <option selected=""> 등록된 일정 수: {{ daysCount }}</option>
+
                                     <option selected=""> 미지정</option>
 
                                     <option value="2">Two</option>
@@ -120,6 +122,8 @@
                             </div>
 
                             <ul class="list-group">
+                                등록된 관광지 수: {{ placesCount }}
+
                                 <li
                                     class="list-group-item d-flex justify-content-between align-items-center"
                                 >
@@ -138,7 +142,11 @@
                                 {% endfor %}
                             </ul>
 
-                            <button type="button" class="btn btn-primary btn-lg btn-block">
+                            <button
+                                id="placAddBtn"
+                                type="button"
+                                class="btn btn-primary btn-lg btn-block"
+                            >
                                 추가하기
                             </button>
                         </div>
@@ -167,4 +175,103 @@
     -->
         </div>
     </body>
+
+  
+
+    <!--   장소 추가 모달      -->
+    <div class="modal" id="placeAddModal">
+        <form action="{% url 'placesave' %}">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">장소 추가하기</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-form-label" for="inputDefault">name</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="장소를 입력하세요."
+                                id="inputDefault"
+                                name="name"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label" for="inputDefault">description</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="장소 설명을 입력해주세요"
+                                id="inputDefault"
+                                name="description"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label" for="inputDefault">latitude</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="latitude"
+                                id="inputDefault"
+                                name="latitude"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label" for="inputDefault">longitude</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="longitude"
+                                id="inputDefault"
+                                name="longitude"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label" for="inputDefault">order</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="order"
+                                id="inputDefault"
+                                name="order"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <select class="custom-select">
+                                <option selected="">day 설정 추가하기</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input class="btn btn-primary" type="submit" value="저장하기" />
+
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--  추가하기 버튼 누르면 모달 실행    -->
+    <script>
+        $('#placAddBtn').click(function (e) {
+            e.preventDefault();
+            $('#placeAddModal').modal('show');
+        });
+    </script>
 </html>
