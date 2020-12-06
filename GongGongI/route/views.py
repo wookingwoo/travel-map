@@ -8,6 +8,8 @@ def index(request):
 
     places = Place.objects.all()
     placesCount = Place.objects.count()
+    
+    
 
     return render(request, 'map/index.html',
                   {
@@ -52,7 +54,9 @@ def addPlace(request):
 #     day 추가하기
     # day = models.ForeignKey(Day, on_delete=models.CASCADE)
 
-    place.order = request.GET['order']
+    # place.order = request.GET['order']
+    place.order = 1
+
 
         
     place.save()

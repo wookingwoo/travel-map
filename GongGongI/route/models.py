@@ -19,8 +19,8 @@ class Place(models.Model):
     longitude = models.FloatField()
 
     day = models.ForeignKey(Day, on_delete=models.CASCADE, blank=True, null=True)
-    # order = models.IntegerField(max_length=2, unique=True)
-    order = models.PositiveIntegerField(unique=True, validators=[MaxValueValidator(30)])
+    # order = models.PositiveIntegerField(unique=True, validators=[MaxValueValidator(30)])
+
     
     def __str__(self):
         return self.name
