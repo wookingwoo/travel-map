@@ -1,6 +1,5 @@
+.idea/
 *.pyc
 nohup.out
-db.sqlite3
-migrations/
 wjh.md
 wjhvenv/*
