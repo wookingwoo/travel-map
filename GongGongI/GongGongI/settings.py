@@ -35,13 +35,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'django.contrib.sites',
+
+    'bootstrap4',
+    
     'user',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+
     'route',
+    
 ]
 
 MIDDLEWARE = [
@@ -131,7 +137,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-SITE_ID = 4
+
+SITE_ID = 5
 LOGIN_REDIRECT_URL = '/'
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -145,3 +152,6 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

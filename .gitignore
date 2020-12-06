@@ -1,7 +1,9 @@
 .vscode
+
 .idea/
 *.pyc
 nohup.out
 wjh.md
 wjhvenv/*
+
 db.sqlite3
