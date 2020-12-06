@@ -1,3 +1,5 @@
+{% extends "user/base.html" %}
+
 <!DOCTYPE html>
 {% load static %}
 <html lang="ko">
@@ -24,6 +26,8 @@
             crossorigin="anonymous"
         />
     </head>
+
+    {% block content %}
 
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -82,7 +86,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4"><h1>일정 관리</h1> {{ wjh_test }}</div>
+                <div class="col-md-4">
+                    <h1>일정 관리</h1>
+                    {{ wjh_test }}
+                </div>
             </div>
 
             <div class="row">
@@ -175,8 +182,6 @@
     -->
         </div>
     </body>
-
-  
 
     <!--   장소 추가 모달      -->
     <div class="modal" id="placeAddModal">
@@ -274,4 +279,6 @@
             $('#placeAddModal').modal('show');
         });
     </script>
+
+    {% endblock %}
 </html>
