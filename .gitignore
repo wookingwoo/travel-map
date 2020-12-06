@@ -4,3 +4,4 @@
 nohup.out
 wjh.md
 wjhvenv/*
+db.sqlite3
