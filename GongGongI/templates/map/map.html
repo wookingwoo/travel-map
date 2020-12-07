@@ -1,95 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>atrraction 마커 찍기</title>
+    <style>
+        {margin:0;}
+        #map {position: absolute; z-index: 0;}
+        .all_wrapper {padding: 20px;}
+        .search_wrap, .search_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:15px;}
+        .search_wrap a, .search_wrap a:hover, .search_wrap a:active{color:#000;text-decoration: none;}
+        .search_wrap {position: relative;width:100%; height: 33px;}
+        #menu_wrap {position:absolute;top:0;left:0;bottom:10;width:330px;margin:0;padding:2px;overflow-y:auto;background:rgba(255, 255, 255, 0.9);z-index: 1;font-size:12px;border-radius: 10px; box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);}
+        .bg_white {background:#fff;}
+        #keyword {width:200px;}
+        #menu_wrap .option{padding: 0 10px; height: 30px;}
+        #menu_wrap .option p {margin:10px 0;}
+        #menu_wrap .option button {margin-left:15px;}
+        #menu_wrap .option span{display: block; width:30px; height:30px; margin:0; float:right; }
+        span.search_icon { background:url(/static/image/search-icon.png) no-repeat; background-size: 25px;}
+        .wrapper {position: relative; width:242px;}
+        .wrapper, .wrapper * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+        #category {position: relative;top:15px;left:0;border-radius: 10px; border:1px solid rgba(0, 0, 0, 0);box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);background: rgba(255, 255, 255, 0.8); overflow: hidden;z-index: 2; margin-bottom: 10px;}
+        #category li {font-weight: 600; font-size: 12px; color:rgba(0, 0, 0, 0.7); margin-top:0;float:left;list-style: none;width:80px;border-right:1px solid #acacac;padding:6px 0px 2px 0px;text-align: center; cursor: pointer;}
+        #category li.on {background: #ebebeb;}
+        #category li:hover { border-left:1px solid #acacac;margin-left: -1px;}
+        #category li:last-child{margin-right:0;border-right:0;}
+        #category li span {display: block;margin:0 auto 3px;width:25px;height: 25px;}
+        #category li .category_restaurant { background:url(/static/image/attractions.svg) no-repeat; background-size: 25px; margin-bottom: 6px;}
+        #category li .category_attractions {background:url(/static/image/attractions.svg) no-repeat; background-size: 25px; margin-bottom: 6px;}
+        #category li .gps { background:url(/static/images/location-icon.png) no-repeat; background-size: 25px; margin-bottom: 6px;}
+        .gps_wrapper{margin:0; padding: 0; position: relative; z-index: 1; width:52px;}
+        .gps_wrapper, .gps_wrapper * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+        .placeinfo_wrap {position:absolute;bottom:20px;left:-120px;width: 250px;}
+        .placeinfo {position:relative;width:100%;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;padding-bottom: 10px;background: #fff;}
+        .placeinfo:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+        .placeinfo_wrap .after {content:'';position:relative;margin-left:-12px;left:50%;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+        .placeinfo span {display: block;text-overflow: initial; white-space: initial;}
+        .placeinfo span {/*margin:5px 5px 0 5px;*/cursor: default;font-size:13px;}
+        .placeinfo .title {font-weight: bold; font-size:11px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;}
+        .placeinfo .ptitle {font-weight: bold; border-radius: 6px 6px 0 0; margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #f99639;}
+        .placeinfo .ptitle h1 {font-size: 16px;}
+        .placeinfo .ptitle p {font-size: 16px;}
+    </style>
 
+</head>
+<body>
 <div id="map" style="width:100%;height:630px;"></div>
+<div class = "all_wrapper">
+    <div class="search_wrap">
+        <div id="menu_wrap" class="bg_white">
+            <div class="option w-100 d-flex flex-column align-items-center">
+                <form onsubmit="keysearchPlaces(); return false;" class="d-flex align-items-center justify-content-between w-100">
+                    <input type="text" placeholder="목적지를 검색해주세요" id="keyword"
+                           style="border-color: rgba(0,0,0,0); background-color: rgba(0,0,0,0);">
+                    <span class="search_icon" onclick="keysearchPlaces();"></span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <ul id="category">
+            <li id="mask"> <span class="category_restaurant" onclick="markRestaurant()" title="안심식당 띄우기"></span>안심식당 보기 </li>
+            <li id="hospital"> <span class="category_attractions" onclick="markAttractions()" title="관광지 띄우기"></span>관광지 보기 </li>
+            <li> <span class="gps" title="현재 위치 추적" onclick="onClickGPS()"></span>나의 위치</li>
+        </ul>
+    </div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1f01373d522d7b39eb6a55009659d8e9"></script>
-<script>
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-        mapOption = {
-            center: new kakao.maps.LatLng(35.16009118296121, 126.8513890769971), // 지도의 중심좌표
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1f01373d522d7b39eb6a55009659d8e9"></script>
+    <script>
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(36.5618740236, 128.7094746191), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };
 
-            level: 3 // 지도의 확대 레벨
-        };
+        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+        var gps_use = null // gps 승인 여부
+        var gps_lat = null // 위도
+        var gps_lng = null // 경도
+        var gps_position
+
+        gps_check() // 접속하자마자 gps 반환 여부와 위도와 경도를 반환
+
+        var placeOverlay = new kakao.maps.CustomOverlay({zIndex:1}),
+            contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+            markers = [], // 마커를 담을 배열입니다
+            currCategory = '', // 현재 선택된 카테고리를 가지고 있을 변수입니다
+            addressResult = []
+        contentNode.className = 'placeinfo_wrap'
+        placeOverlay.setContent(contentNode)
+        kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+            placeOverlay.setMap(null)
+        })
+        function showLocation(position) { // gps를 반환할 수 있다면
+            gps_use = true
+            gps_lat = position.coords.latitude
+            gps_lng = position.coords.longitude
+        }
+
+        function errorHandler(error) { // gps를 반환할 수 없다면
+            if(error.code == 1) {
+                alert("접근차단. 크롬 브라우저 사용을 권장합니다.")
+            } else if( err.code == 2) {
+                alert("위치를 반환할 수 없습니다.")
+            }
+            gps_use = false
+        }
+
+        function gps_check(){
+            if (navigator.geolocation) {
+                var options = {timeout:60000}
+                navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options)
+            } else {
+                alert("GPS_추적이 불가합니다.")
+                gps_use = false
+            }
+        }
+
+        function relayout() {
+
+            // 지도를 표시하는 div 크기를 변경한 이후 지도가 정상적으로 표출되지 않을 수도 있습니다
+            // 크기를 변경한 이후에는 반드시  map.relayout 함수를 호출해야 합니다
+            // window의 resize 이벤트에 의한 크기변경은 map.relayout 함수가 자동으로 호출됩니다
+            map.relayout();
+        }
+
+        function markAttractions() {
+            var attractions = JSON.parse("{{ attractionJson|escapejs }}");
+            var positions = [];
+            for (var i = 0; i < Object.keys(attractions).length; i++) {
+                var content = {
+                    title: attractions[i].title,
+                    latlng: new kakao.maps.LatLng(attractions[i].mapy, attractions[i].mapx)
+                }
+                positions.push(content);
+            }
+            ;
+            console.log(positions);
+
+            // 마커 이미지의 이미지 주소입니다
+            var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+            for (var i = 0; i < positions.length; i++) {
+                // 마커 이미지의 이미지 크기 입니다
+                var imageSize = new kakao.maps.Size(24, 35);
+                // 마커 이미지를 생성합니다
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                    map: map, // 마커를 표시할 지도
+                    position: positions[i].latlng, // 마커를 표시할 위치
+                    title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                    image: markerImage // 마커 이미지
+                });
+                (function(marker, place) {
+                    kakao.maps.event.addListener(marker, 'click', function() {
+                        var overlay = new kakao.maps.CustomOverlay({
+                            content: ''
+                                + '    <div class="placeinfo pb-0">'
+                                + '        <div class="ptitle d-flex justify-content-between align-items-center flex-wrap">'
+                                + '            <h1 class="m-0 text-center">' + place.title + '</h1>'
+                                + '        </div>'
+                                + '    </div>'
+                                + '    <div class="after"></div>',
+                            map: map,
+                            position: marker.getPosition()
+                        });
+                        console.log(overlay);
+                        overlay.setMap(map);
+                    })
+                })(marker, positions[i])
+            }
+
+
+            // 나의위치찾기 버튼을 클릭하였을 때 호출되는 함수입니다.
+            function onClickGPS() {
+                gps_check()
+                changeCategoryClass(this)
+                if (gps_use) {
+                    map.panTo(new kakao.maps.LatLng(gps_lat, gps_lng))
+                    var gps_content = '<div><img class="pulse" draggable="false" unselectable="on" src="https://ssl.pstatic.net/static/maps/m/pin_rd.png" alt=""></div>';
+                    var currentOverlay = new kakao.maps.CustomOverlay({
+                        position: new kakao.maps.LatLng(gps_lat, gps_lng),
+                        content: gps_content,
+                    })
+                    currentOverlay.setMap(map)
+                } else {
+                    alert("접근차단하신 경우 새로고침, 아닌 경우 잠시만 기다려주세요.")
+                    gps_check()
+                }
+            }
+        }
 
 
 
-    // 선을 구성하는 좌표 배열입니다. 이 좌표들을 이어서 선을 표시합니다
-    var linePath = [
-
-        new kakao.maps.LatLng(35.15208028044071, 126.89016689379186),
-        new kakao.maps.LatLng(35.14878187280618, 126.88216318232725),
-        new kakao.maps.LatLng(35.151910711244035, 126.87669511710125)
-    ];
-
-    // 지도에 표시할 선을 생성합니다
-    var polyline = new kakao.maps.Polyline({
-        path: linePath, // 선을 구성하는 좌표배열 입니다
-        strokeWeight: 5, // 선의 두께 입니다
-        strokeColor: '#FF2424', // 선의 색깔입니다
-        strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-        strokeStyle: 'solid' // 선의 스타일입니다
-    });
-
-    // 지도에 선을 표시합니다
-    polyline.setMap(map);
 
 
 
-
-
-
-    // 현재 위치 표시
-
-    // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
-    if (navigator.geolocation) {
-
-        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-        navigator.geolocation.getCurrentPosition(function(position) {
-
-            var lat = position.coords.latitude, // 위도
-                lon = position.coords.longitude; // 경도
-
-            var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-                message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
-
-            // 마커와 인포윈도우를 표시합니다
-            displayMarker(locPosition, message);
-
-        });
-
-    } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-
-        var locPosition = new kakao.maps.LatLng(35.16009118296121, 126.8513890769971),
-            message = 'geolocation을 사용할수 없어요..'
-
-        displayMarker(locPosition, message);
-    }
-
-    // 지도에 마커와 인포윈도우를 표시하는 함수입니다
-    function displayMarker(locPosition, message) {
-
-        // 마커를 생성합니다
-        var marker = new kakao.maps.Marker({
-            map: map,
-            position: locPosition
-        });
-
-        var iwContent = message, // 인포윈도우에 표시할 내용
-            iwRemoveable = true;
-
-        // 인포윈도우를 생성합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content : iwContent,
-            removable : iwRemoveable
-        });
-
-        // 인포윈도우를 마커위에 표시합니다
-        infowindow.open(map, marker);
-
-        // 지도 중심좌표를 접속위치로 변경합니다
-        map.setCenter(locPosition);
-    }
-
-
-</script>
+    </script>
+</body>
+</html>
