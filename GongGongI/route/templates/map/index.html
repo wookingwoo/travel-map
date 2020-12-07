@@ -74,16 +74,12 @@
                                     <!-- <option value="1">One</option>
                                     <option value="2">Two</option>
                                     <option value="3">Three</option> -->
-                                    
-                                    
-                                    
+
                                     {% for group in groups %}
 
                                     <option value="1">{{ group.title }}</option>
 
                                     {% endfor %}
-                                    
-                                    
                                 </select>
                             </div>
 
@@ -161,7 +157,7 @@
 
     <!--   장소 추가 모달      -->
     <div class="modal" id="placeAddModal">
-        <form action="{% url 'placesave' %}">
+        <form action="{% url 'route_app:placesave' %}">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -255,6 +251,12 @@
             $('#placeAddModal').modal('show');
         });
     </script>
+
+    <!--  댓글 시작 20201208    -->
+
+    <a href="{% url 'route_app:comment_new' 1 %}" class="btn btn-primary">댓글 쓰기</a>
+
+    <!--   댓글끝  20201208   -->
 
     {% endblock %}
 </html>
