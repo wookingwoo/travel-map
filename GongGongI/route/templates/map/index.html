@@ -82,24 +82,75 @@
                                     {% endfor %}
                                 </select>
                             </div>
+                            
+                            
 
+                            
+                            
                             <div class="form-group">
-                                <select class="custom-select">
+
+                                <select class="custom-select"  id="daysSelect" onchange="daysID()">
                                     <option selected=""> 등록된 일정 수: {{ daysCount }}</option>
 
-                                    <option selected=""> 미지정</option>
+                                    <option selected="123"> 미지정</option>
 
                                     <!-- <option value="2">Two</option>
                                     <option value="3">Three</option> -->
 
                                     {% for day in days %}
 
-                                    <option value="1">{{ day.name }}</option>
+                                    <option value="{{ day.id }}">{{ day.name }}</option>
 
                                     {% endfor %}
                                 </select>
                             </div>
+                            
+                            
+                                                                <p id="selectedDay">     </p>
 
+                            
+                            <script>
+function daysID() {
+console.log("wjh");  
+
+  var x = document.getElementById("daysSelect").value;
+    
+    var placeList = "";
+      {% for place in places %}
+      
+ 
+        
+       
+       if (String({{ place.day.id }}) == String(x)){
+           console.log("성공");
+           
+        placeList = placeList+   "<li  class=\"list-group-item d-flex justify-content-between align-items-center\"  >   {{ place.name }}  <span class=\"badge badge-primary badge-pill\">X</span>  </li>";
+      
+           
+           
+           
+
+       }
+
+  
+      
+      
+  document.getElementById("selectedDay").innerHTML = "이거      {{ place.day.id }}     선택된 장소 ID: " + x;
+       
+         document.getElementById("placeListID").innerHTML = placeList;
+
+       
+                                           {% endfor %}
+
+}
+    
+
+</script>
+                            
+                            
+
+                            
+                            
                             <ul class="list-group">
                                 등록된 관광지 수: {{ placesCount }}
 
@@ -108,17 +159,11 @@
                                 >
                                     관광지1 <span class="badge badge-primary badge-pill">X</span>
                                 </li> -->
+                                
+                                                                                                <p id="placeListID">     </p>
 
-                                {% for place in places %}
 
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-center"
-                                >
-                                    {{ place.name }}
-                                    <span class="badge badge-primary badge-pill">X</span>
-                                </li>
-
-                                {% endfor %}
+                               
                             </ul>
 
                             <button
