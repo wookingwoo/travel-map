@@ -1,0 +1,22 @@
+{% extends "user/base.html" %}
+
+{% block title %}
+공공의 맛
+{% endblock %}
+{% block content %}
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh;">
+    index page
+    {% if user.is_authenticated %}
+    <p>{{ user.email }}로그인 중</p>
+    <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button type="submit" class="btn btn-secondary">로그아웃</button>
+    </form>
+
+    {% else %}
+    {% endif %}
+</div>
+{% endblock %}
