@@ -96,18 +96,17 @@ def comment_new(request, post_pk):
 
 @login_required
 def comment_edit(request, post_pk, pk):
-    post = get_object_or_404(Group, pk=post_pk)
     comment = get_object_or_404(Comment, pk=pk)
+
+    if comment.author != request.user:
+        return redirect("/route/", post_pk)
 
     if request.method == 'POST':
         form = CommentForm(request.POST, request.FILES, instance=comment)
 
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.author = request.user
-            comment.save()
-            return redirect("/route/", post.pk)
+            comment = form.save()
+            return redirect("/route/", post_pk)
 
     else:
         form = CommentForm(instance=comment)
