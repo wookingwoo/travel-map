@@ -10,12 +10,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 
 def index(request):
-    print("일단 이건 되고..")
-
-    selected_option = request.POST.get('my_options', None)
-    print("안녕!!!!!!!!!!!!!!!!!!!")
-    print(selected_option)
-
     groups = Group.objects.all()
     groupsCount = Group.objects.count()
 

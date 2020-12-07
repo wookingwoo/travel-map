@@ -82,17 +82,14 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            
-                            
 
-                            
-                            
                             <div class="form-group">
-
-                                <select class="custom-select"  id="daysSelect" onchange="daysID()">
+                                <select class="custom-select" id="daysSelect" onchange="daysID()">
                                     <option selected=""> 등록된 일정 수: {{ daysCount }}</option>
 
-                                    <option selected="123"> 미지정</option>
+                                    <option value="all_day"> 모두보기</option>
+
+                                    <option value="null_day"> 미지정</option>
 
                                     <!-- <option value="2">Two</option>
                                     <option value="3">Three</option> -->
@@ -104,53 +101,46 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            
-                            
-                                                                <p id="selectedDay">     </p>
 
-                            
                             <script>
-function daysID() {
-console.log("wjh");  
+                                function daysID() {
 
-  var x = document.getElementById("daysSelect").value;
-    
-    var placeList = "";
-      {% for place in places %}
-      
- 
-        
-       
-       if (String({{ place.day.id }}) == String(x)){
-           console.log("성공");
-           
-        placeList = placeList+   "<li  class=\"list-group-item d-flex justify-content-between align-items-center\"  >   {{ place.name }}  <span class=\"badge badge-primary badge-pill\">X</span>  </li>";
-      
-           
-           
-           
+                                  var x = document.getElementById("daysSelect").value;
 
-       }
+                                    var placeList = "";
+                                      {% for place in places %}
 
-  
-      
-      
-  document.getElementById("selectedDay").innerHTML = "이거      {{ place.day.id }}     선택된 장소 ID: " + x;
-       
-         document.getElementById("placeListID").innerHTML = placeList;
+                                       if ( String(x) == String({{ place.day.id }})) {
 
-       
-                                           {% endfor %}
+                                        placeList = placeList + "<li class=\"list-group-item d-flex justify-content-between align-items-center\" >  {{ place.name }} <span class=\"badge badge-primary badge-pill\">X</span> </li>";
 
-}
-    
 
-</script>
-                            
-                            
+                                       }
+                                       
+                                       else if(String(x) =="all_day"){
+                                           
+                                                                                   placeList = placeList + "<li class=\"list-group-item d-flex justify-content-between align-items-center\" >  {{ place.name }} <span class=\"badge badge-primary badge-pill\">X</span> </li>";
 
-                            
-                            
+                                           
+                                       }
+                                       
+                                              else if((String(x) =="null_day") && ( String( {{ place.day.id }} ) == "")){
+                                           
+                                                                                   placeList = placeList + "<li class=\"list-group-item d-flex justify-content-between align-items-center\" >  {{ place.name }} <span class=\"badge badge-primary badge-pill\">X</span> </li>";
+
+                                           
+                                       }
+
+
+
+                                         document.getElementById("placeListID").innerHTML = placeList;
+
+
+                                                                           {% endfor %}
+
+                                }
+                            </script>
+
                             <ul class="list-group">
                                 등록된 관광지 수: {{ placesCount }}
 
@@ -159,11 +149,8 @@ console.log("wjh");
                                 >
                                     관광지1 <span class="badge badge-primary badge-pill">X</span>
                                 </li> -->
-                                
-                                                                                                <p id="placeListID">     </p>
 
-
-                               
+                                <p id="placeListID"></p>
                             </ul>
 
                             <button
@@ -304,15 +291,12 @@ console.log("wjh");
     {% for comment in comments %}
 
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        {{ comment.message }} by {{ comment.author }} at {{ comment.created_at }}
-        
-        {% if comment.author == request.user %}
+        {{ comment.message }} by {{ comment.author }} at {{ comment.created_at }} {% if   comment.author == request.user %}
 
         <a href="{{ comment.get_edit_url }}"> 수정</a>
         <a href="{{ comment.get_delete_url }}" class="text-danger"> 삭제</a>
 
         {% endif %}
-        
     </li>
 
     {% endfor %}
