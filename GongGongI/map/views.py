@@ -11,7 +11,8 @@ def showattractions(request):
             content = {
                 "title": attraction['title'],
                 "mapx": str(attraction['mapx']),
-                "mapy": str(attraction['mapy'])
+                "mapy": str(attraction['mapy']),
+                "addr1": str(attraction['addr1']),
             }
             attractiondict.append(content)
     attractionJson = json.dumps(attractiondict, ensure_ascii=False)

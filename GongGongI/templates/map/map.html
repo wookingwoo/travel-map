@@ -32,16 +32,16 @@
         #category li .gps { background:url(/static/images/location-icon.png) no-repeat; background-size: 25px; margin-bottom: 6px;}
         .gps_wrapper{margin:0; padding: 0; position: relative; z-index: 1; width:52px;}
         .gps_wrapper, .gps_wrapper * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-        .placeinfo_wrap {position:absolute;bottom:20px;left:-120px;width: 250px;}
-        .placeinfo {position:relative;width:100%;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;padding-bottom: 10px;background: #fff;}
-        .placeinfo:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-        .placeinfo_wrap .after {content:'';position:relative;margin-left:-12px;left:50%;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-        .placeinfo span {display: block;text-overflow: initial; white-space: initial;}
-        .placeinfo span {/*margin:5px 5px 0 5px;*/cursor: default;font-size:13px;}
-        .placeinfo .title {font-weight: bold; font-size:11px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;}
-        .placeinfo .ptitle {font-weight: bold; border-radius: 6px 6px 0 0; margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #f99639;}
-        .placeinfo .ptitle h1 {font-size: 16px;}
-        .placeinfo .ptitle p {font-size: 16px;}
+
+        .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+        .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+        .info .title {padding: 10px 0 0 10px;height: 25px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+        .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+        .info .close:hover {cursor: pointer;}
+        .info .body {position: relative;overflow: hidden;}
+        .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+        .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+        .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
     </style>
 
 </head>
@@ -84,16 +84,6 @@
 
         gps_check() // 접속하자마자 gps 반환 여부와 위도와 경도를 반환
 
-        var placeOverlay = new kakao.maps.CustomOverlay({zIndex:1}),
-            contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
-            markers = [], // 마커를 담을 배열입니다
-            currCategory = '', // 현재 선택된 카테고리를 가지고 있을 변수입니다
-            addressResult = []
-        contentNode.className = 'placeinfo_wrap'
-        placeOverlay.setContent(contentNode)
-        kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-            placeOverlay.setMap(null)
-        })
         function showLocation(position) { // gps를 반환할 수 있다면
             gps_use = true
             gps_lat = position.coords.latitude
@@ -145,13 +135,16 @@
             map.relayout();
         }
 
+
         function markAttractions() {
             var attractions = JSON.parse("{{ attractionJson|escapejs }}");
             var positions = [];
             for (var i = 0; i < Object.keys(attractions).length; i++) {
                 var content = {
                     title: attractions[i].title,
-                    latlng: new kakao.maps.LatLng(attractions[i].mapy, attractions[i].mapx)
+                    latlng: new kakao.maps.LatLng(attractions[i].mapy, attractions[i].mapx),
+                    addr1: attractions[i].addr1,
+                    detail: "디테일입니다 추후 추가예정",
                 }
                 positions.push(content);
             }
@@ -174,23 +167,31 @@
                 });
                 (function(marker, place) {
                     kakao.maps.event.addListener(marker, 'click', function() {
+                        var content = '<div class="wrap">' +
+                            '    <div class="info">' +
+                            '        <div class="title">' +
+                            place.title +
+                            '            <div class="close" onclick="overlay.setMap(null);" title="닫기"></div>' +
+                            '        </div>' +
+                            '        <div class="body">' +
+                            '            <div class="desc">' +
+                            '                <div class="ellipsis">' + place.addr1 + '</div>' +
+                            '                <div class="jibun ellipsis">' + place.detail + '</div>' +
+                            '            </div>' +
+                            '        </div>' +
+                            '    </div>' +
+                            '</div>';
                         var overlay = new kakao.maps.CustomOverlay({
-                            content: ''
-                                + '    <div class="placeinfo pb-0">'
-                                + '        <div class="ptitle d-flex justify-content-between align-items-center flex-wrap">'
-                                + '            <h1 class="m-0 text-center">' + place.title + '</h1>'
-                                + '        </div>'
-                                + '    </div>'
-                                + '    <div class="after"></div>',
+                            content: content,
                             map: map,
                             position: marker.getPosition()
                         });
-                        console.log(overlay);
                         overlay.setMap(map);
                     })
                 })(marker, positions[i])
             }
         }
+
 
 
 
