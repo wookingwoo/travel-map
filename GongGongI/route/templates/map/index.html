@@ -84,7 +84,7 @@
                             </div>
 
                             <div class="form-group">
-                                <select class="custom-select" id="daysSelect" onchange="daysID()">
+                                <select class="custom-select" id="daysSelect" onchange="daysID();daysID2()">
                                     <option selected=""> 등록된 일정 수: {{ daysCount }}</option>
 
                                     <option value="all_day"> 모두보기</option>
@@ -137,8 +137,13 @@
 
 
                                                                            {% endfor %}
+                                                                           
+
 
                                 }
+                                       
+                                       
+
                             </script>
 
                             <ul class="list-group">
