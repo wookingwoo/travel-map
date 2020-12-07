@@ -1,8 +1,14 @@
 from django.shortcuts import render
 from .models import Day, Place
+from user.models import Group, MemberList
+
 
 
 def index(request):
+    
+    groups = Group.objects.all()
+    groupsCount = Group.objects.count()
+    
     days = Day.objects.all()
     daysCount = Day.objects.count()
 
@@ -13,6 +19,9 @@ def index(request):
 
     return render(request, 'map/index.html',
                   {
+                      
+                      "groups":groups,
+                      "groupsCount":groupsCount, 
                       'wjh_test': 'wjh_test20201204',
                       'days': days,
                       'daysCount': daysCount,

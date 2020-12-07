@@ -8,3 +8,6 @@ wjhvenv/*
 venv
 
 db.sqlite3
+migrations/
+
+groupimage/*
