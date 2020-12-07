@@ -18,9 +18,8 @@ def index(request):
 
     places = Place.objects.all()
     placesCount = Place.objects.count()
-    
-    comments = Comment.objects.all()
 
+    comments = Comment.objects.all()
 
     return render(request, 'map/index.html',
                   {
@@ -32,7 +31,7 @@ def index(request):
                       'daysCount': daysCount,
                       'places': places,
                       'placesCount': placesCount,
-                      'comments':comments,
+                      'comments': comments,
 
                   })
 
@@ -90,6 +89,28 @@ def comment_new(request, post_pk):
 
     else:
         form = CommentForm()
+    return render(request, 'map/comment_form.html', {
+        'form': form,
+    })
+
+
+@login_required
+def comment_edit(request, post_pk, pk):
+    post = get_object_or_404(Group, pk=post_pk)
+    comment = get_object_or_404(Comment, pk=pk)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, request.FILES, instance=comment)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return redirect("/route/", post.pk)
+
+    else:
+        form = CommentForm(instance=comment)
     return render(request, 'map/comment_form.html', {
         'form': form,
     })

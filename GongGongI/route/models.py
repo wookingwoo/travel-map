@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator
 from user.models import Group, MemberList
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Day(models.Model):
@@ -30,9 +31,17 @@ class Place(models.Model):
 
 
 class Comment(models.Model):
-    #     Post : Comment = 1 : N
-    post = models.ForeignKey(Group, on_delete=models.CASCADE)  # ForeignKey: 다대 일 구조, Group 한개에 여러개의 댓글이 가능
-    author = models.ForeignKey(User, on_delete=models.CASCADE)  # on_delete=models.CASCADE: 사용자가 탈퇴했을때 삭제함.
+    post = models.ForeignKey(Group, on_delete=models.CASCADE)  # Post : Comment = 1 : N
+    author = models.ForeignKey(User, on_delete=models.CASCADE)  # 사용자 탈퇴시 삭제함.
     message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)  # 작성한 시간 추가
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-id']  # 역순 정렬
+
+    def get_edit_url(self):
+        return reverse('route_app:comment_edit', args=[self.post.pk, self.pk])
+        # return reverse('route_app:comment_edit', args=[1, self.pk])
+
+
