@@ -43,5 +43,8 @@ class Comment(models.Model):
     def get_edit_url(self):
         return reverse('route_app:comment_edit', args=[self.post.pk, self.pk])
         # return reverse('route_app:comment_edit', args=[1, self.pk])
+        
+    def get_delete_url(self):
+        return reverse('route_app:comment_delete', args=[self.post.pk, self.pk])
 
 

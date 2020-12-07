@@ -262,6 +262,8 @@
         {{ comment.message }} by {{ comment.author }} at {{ comment.created_at }}
 
         <a href="{{ comment.get_edit_url }}"> 수정</a>
+                <a href="{{ comment.get_delete_url }}" class="text-danger"> 삭제</a>
+
     </li>
 
     {% endfor %}

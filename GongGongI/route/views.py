@@ -113,3 +113,20 @@ def comment_edit(request, post_pk, pk):
     return render(request, 'map/comment_form.html', {
         'form': form,
     })
+
+
+@login_required
+def comment_delete(request, post_pk, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+
+    if comment.author != request.user:
+        return redirect("/route/", post_pk)
+
+    if request.method == 'POST':
+        comment.delete()
+        return redirect("/route/", post_pk)
+
+
+    return render(request, 'map/comment_confirm_delete.html', {
+        'comment': comment,
+    })
