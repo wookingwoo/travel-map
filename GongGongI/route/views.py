@@ -18,6 +18,9 @@ def index(request):
 
     places = Place.objects.all()
     placesCount = Place.objects.count()
+    
+    comments = Comment.objects.all()
+
 
     return render(request, 'map/index.html',
                   {
@@ -29,6 +32,7 @@ def index(request):
                       'daysCount': daysCount,
                       'places': places,
                       'placesCount': placesCount,
+                      'comments':comments,
 
                   })
 

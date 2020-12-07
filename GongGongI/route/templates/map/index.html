@@ -256,6 +256,15 @@
 
     <a href="{% url 'route_app:comment_new' 1 %}" class="btn btn-primary">댓글 쓰기</a>
 
+
+    {% for comment in comments %}
+
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ comment.message }} by {{ comment.author }} at {{ comment.created_at }}
+    </li>
+
+    {% endfor %}
+
     <!--   댓글끝  20201208   -->
 
     {% endblock %}
