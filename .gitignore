@@ -4,10 +4,10 @@
 *.pyc
 nohup.out
 wjh.md
-wjhvenv/*
+wjhvenv/
 venv
 
 db.sqlite3
 migrations/
 
-groupimage/*
+groupimage/
