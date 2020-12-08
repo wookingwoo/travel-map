@@ -1,0 +1,63 @@
+{% extends "user/base.html" %} 
+
+{% block title %} 공공의 맛 - 마이페이지 {% endblock %} 
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; height: 80vh;">
+    
+    {% if user.is_authenticated %}
+    {% if request.user == u %}
+	<h1>마이페이지</h1>
+    <div>
+    <img src="{{u.profile.image.url}}" style="width:10rem; height:10rem; border-radius:10rem; margin:1rem 0">
+    <p>{{ u.email }}</p>
+    <h6>{{u.profile.message}}</h6>
+    <a href="{% url 'user:profile_update' pk=u.profile.pk %}">프로필 수정하기</a>
+    
+    <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button type="submit" class="btn btn-secondary">로그아웃</button>
+    </form>
+    </div>
+    <div>
+		<h5>보낸 친구 요청</h5>
+		<ul>
+		{% for s_request in sent_friend_requests %}
+			<li>{{ s_request.to_user.username }}</li>
+		{% empty %}
+		<a href="{% url 'user:search' %}"> 친구 요청하기</a>
+		{% endfor %}
+		</ul>
+		<hr>
+		<h5>받은 친구 요청</h5>
+		
+		{% for r_request in rec_friend_requests %}
+		<div class="profile">
+		<!--
+		<img src="{{r_request.from_user.profile.image.url}}">
+		-->
+		<div class="profile_text">
+			<p>{{ r_request.from_user.username }}</p>
+			<small><a class='btn btn-primary' href="{% url 'user:accept_friend_request' id=r_request.from_user.id %}">수락</a></small>
+			<small><a class='btn btn-warning' href="{% url 'user:delete_friend_request' id=r_request.from_user.id %}">거절</a></small>
+		</div>
+		</div>
+		{% empty %}
+		<p>요청이 없습니다</p>
+		{% endfor %}
+		
+
+	{% else %}
+
+
+	{% endif %}
+    </div>
+    
+    {% else %}
+    {% endif %}
+</div>
+
+{% endblock %}

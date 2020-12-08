@@ -27,8 +27,8 @@ class MemberList(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='profile/',null=True)
-    message=models.CharField(max_length=100,null=True)
+    image = models.ImageField(upload_to='profile/',null=True,default="profile/user.png")
+    message=models.CharField(max_length=100,null=True,default="메시지를 작성해주세요")
     friends = models.ManyToManyField("Profile", blank=True)
 
     def __str__(self):

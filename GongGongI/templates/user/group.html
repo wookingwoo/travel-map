@@ -5,15 +5,21 @@
 {% endblock %}
 
 {% block content %}
-<div style="height: 80vh;">
-  {% if user.is_authenticated %}
+
+<div style="height: 80vh; display: flex; flex-direction: column;" class="mt-2 mx-3">
+{% if user.is_authenticated %}
+  <ul class="menu">
+    <li><a class="btn" href="{% url 'user:grouplist' %}">그룹목록</a></li>
+    <li><a class="btn" href="{% url 'user:search' %}">친구목록</a></li>
+  </ul>
+
   {% if group_list %}
-  <div class="album py-5">
+  <div class="album py-1">
     <div class="container">
       <div class="row">
         {% for item in group_list %}
-        <div class="col-md-4">
-          <div class="card mb-4 box-shadow" style="text-align:center;padding:1rem;">
+        <div class="col-md-3">
+          <div class="card mb-3 box-shadow" style="text-align:center;padding:1rem;">
            <div calss="card-body" style="height:20rem; overflow:hidden">
             <img src="{{ item.group.image.url }}" style="width:10rem; height:10rem; border-radius:10rem; margin:1rem 0">
             <h4>{{ item.group.title }}</h4>
@@ -22,7 +28,23 @@
           </div>
         </div>
         {% endfor %}
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <div class="card mb-3 box-shadow" style="padding:1rem;">
+            <div calss="card-body" style="height:20rem;display:flex; flex-direction:column; justify-content:center;"> 
+              <a href="{% url 'user:create' %}" style="display:flex; flex-direction:column; align-items:center; color:rgba(255, 94, 62, 1);">
+              <i class="fas fa-plus-circle" style="font-size:xxx-large; margin:10px"></i>
+              <p>그룹만들기</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% else %}
+  <div>
+    <div class="col-md-4 py-1">
         <div class="card mb-4 box-shadow" style="padding:1rem;">
           <div calss="card-body" style="height:20rem;display:flex; flex-direction:column; justify-content:center;"> 
               <a href="{% url 'user:create' %}" style="display:flex; flex-direction:column; align-items:center; color:rgba(255, 94, 62, 1);">
@@ -33,26 +55,8 @@
         </div>
       </div>
     </div>
-  </div>
+  {% endif %}
+{% endif %}
 </div>
 
-{% else %}
-  <div>
-    <div class="col-md-4 py-5">
-        <div class="card mb-4 box-shadow" style="padding:1rem;">
-          <div calss="card-body" style="height:20rem;display:flex; flex-direction:column; justify-content:center;"> 
-              <a href="{% url 'user:create' %}" style="display:flex; flex-direction:column; align-items:center; color:rgba(255, 94, 62, 1);">
-              <i class="fas fa-plus-circle" style="font-size:xxx-large; margin:10px"></i>
-              <p>그룹만들기</p>
-              </a>
-          </div>
-        </div>
-      </div>
-  </div>
-{% endif %}
-</div>
-</div>
-</div>
-{% endif %}
-</div>
 {% endblock %}
