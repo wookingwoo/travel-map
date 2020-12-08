@@ -14,9 +14,9 @@
 span.search_icon { background:url(/static/images/search.png) no-repeat; background-size: 25px;}
 .wrapper {position: relative; width:242px;}
 .wrapper, .wrapper * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-#category {position: relative;top:15px;left:0;border-radius: 10px; border:1px solid rgba(0, 0, 0, 0);box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);background: rgba(255, 255, 255, 0.8); overflow: hidden;z-index: 2; margin-bottom: 10px; padding: 1px;
+#category {position: relative;top:15px;left:0;border-radius: 10px; border:1px solid rgba(0, 0, 0, 0);box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);background: rgba(255, 255, 255, 0.8); overflow: hidden;z-index: 2; margin-top: -10px; padding: 1px;
     width: 100%;}
-#category li {font-weight: 600; font-size: 12px; color:rgba(0, 0, 0, 0.7); margin-top:0;float:left;list-style: none;width:79px;border-right:1px solid #acacac;padding:6px 0px 2px 0px;text-align: center; cursor: pointer;}
+#category li {font-weight: 600; font-size: 12px; color:rgba(0, 0, 0, 0.7); margin-top:0;float:left;list-style: none;width:76px;border-right:1px solid #acacac;padding:6px 0px 2px 0px;text-align: center; cursor: pointer;}
 #category li.on {background: #ebebeb;}
 #category li:hover { border-left:1px solid #acacac;margin-left: -1px;}
 #category li:last-child{margin-right:0;border-right:0;}
@@ -26,7 +26,7 @@ span.search_icon { background:url(/static/images/search.png) no-repeat; backgrou
 #category li .gps { background:url(/static/images/location-icon.png) no-repeat; background-size: 25px; margin-bottom: 6px;}
 .gps_wrapper{margin:0; padding: 0; position: relative; z-index: 1; width:52px;}
 .gps_wrapper, .gps_wrapper * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-
+#mask {margin: 0 3px 0 5px;}
 
 .placeinfo_wrap {position:absolute;bottom:20px;left:-120px;width: 250px;}
 .placeinfo {position:relative;width:100%;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;padding-bottom: 10px;background: #fff;}
@@ -43,10 +43,10 @@ span.search_icon { background:url(/static/images/search.png) no-repeat; backgrou
 .placeinfo .time_at {font-size: 14px;}
 .placeinfo .info_content {line-height: 1.5;}
 .placeinfo .addr {color: #888}
-.wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
-.wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
-.info .title {padding: 10px 0 0 10px;height: 25px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
-.info .body {position: relative;overflow: hidden; padding: 5%;}
-.info .desc {position: relative; height: 75px;}
+.info_wrap .info {width: 280px;height: 100px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+.info_wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+.info_wrap .title {padding: 5px 0 0 7px;height: 35px;background: #eee;border-bottom: 1px solid #ddd;font-size: 16px;font-weight: bold;}
+.info_wrap .body {position: relative;overflow: hidden; padding: 3%;}
+.info_wrap .desc {position: relative; height: 100%;}
 .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
-.desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+.desc .jibun {font-size: 14px;color: #888;margin-top: -2px;}
