@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{% block title %}{% endblock %}</title>
+     
+    <title>{% block title %}공공의 맛{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/login.css' %}" />
     <link
       rel="stylesheet"
@@ -11,6 +12,9 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+      
+       {% block headtag %}{% endblock %}
+      
     <style>
       .navbar-collapse {
         flex-direction: row-reverse;
@@ -25,6 +29,10 @@
         margin-right: 0 !important;
       }
     </style>
+      
+      
+      
+      
   </head>
 
   <body>
@@ -96,8 +104,13 @@
             <a class="nav-link active" href="/">홈</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/route">여행</a>
+            <a class="nav-link" href="/map/">주변추천</a>
           </li>
+            
+             <li class="nav-item">
+            <a class="nav-link" href="/route/">여행일정</a>
+          </li>
+            
           <li class="nav-item">
             {% if user.is_authenticated %}
             <a class="nav-link" href="{% url 'user:grouplist' %}">친구/그룹</a>

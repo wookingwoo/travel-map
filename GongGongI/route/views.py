@@ -26,7 +26,6 @@ def index(request):
 
                       "groups": groups,
                       "groupsCount": groupsCount,
-                      'wjh_test': 'wjh_test20201204',
                       'days': days,
                       'daysCount': daysCount,
                       'places': places,
