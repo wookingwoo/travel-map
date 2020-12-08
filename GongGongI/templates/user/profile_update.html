@@ -1,0 +1,19 @@
+{% extends "user/base.html" %} 
+{% load bootstrap4 %} 
+
+{% block title %} 공공의 맛 {% endblock %} 
+
+{% block content %}
+<div class="col-6" style="text-align: center; margin: 4rem auto">
+  <h4 class="mb-4"> 프로필 업데이트 </h4>
+  <form
+    action="{% url 'user:profile_update' pk=target_profile.pk %}"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %} 
+    {% bootstrap_form form %}
+    <input type="submit" class="btn btn-primary" />
+  </form>
+</div>
+{% endblock %}
