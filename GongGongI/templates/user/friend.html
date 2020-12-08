@@ -2,17 +2,19 @@
 
 {% block title %} 공공의 맛 {% endblock %} 
 
-{% block content %}
+
+{%block content %}
+
 <div
   style="display: flex; flex-direction: column; height: 80vh"
-  class="my-5 ml-3"
+  class="mt-2 ml-3"
 >
   {% if user.is_authenticated %}
-  <ul>
-    <li><a href="{% url 'user:grouplist' %}">그룹목록</a></li>
-    <li><a href="{% url 'user:search' %}">친구목록</a></li>
+  <ul class="menu">
+    <li><a class="btn" href="{% url 'user:grouplist' %}">그룹목록</a></li>
+    <li><a class="btn" href="{% url 'user:search' %}">친구목록</a></li>
   </ul>
-
+  <div>
   <form class="form-line my-2" action="{% url 'user:search' %}" method="get">
     {% csrf_token %}
     <div
@@ -39,52 +41,65 @@
     </div>
   </form>
 
-  {% if query %}
-  <p>{{ query }} 검색결과</p>
-  <ul>
-    {% for user_p in users %}
-    <li>
-      <a href="#">{{ user_p }}</a>
-      <div>{{ user_p.message }}</div>
-      <div>
-        {% if button_status == 'not_friend' %}
-        <small
-          ><a
-            class="btn btn-primary"
-            href="{% url 'user:send_friend_request' id=user_p.id %}"
-            >Add Friend</a
-          ></small
-        >
-        {% elif button_status == 'friend_request_sent' %}
-        <small
-          ><a
-            class="btn btn-warning"
-            href="{% url 'user:cancel_friend_request' id=user_p.id %}"
-            >Cancel Request</a
-          ></small
-        >
-        {% endif %}
-      </div>
-    </li>
-    {% empty %}
-    <p>검색결과 없습니다</p>
-    {% endfor %}
-  </ul>
-  {% endif %} 
-  
-    {% for friend in friends_list %}
-      <li>
-        <img src="{{friend.image.url}}" style="width:10rem; height:10rem; border-radius:10rem; margin:1rem 0">
-        <div>{{friend}}</div>
-        <div>{{friend.message}}</div>
+  <div style="border: solid 1px">
+    {% if query %}
+    <p>{{ query }} 검색결과</p>
+    <ul>
+      {% for user_p in users %}
+      <li class="profile">
+        <img
+          src="{{user_p.profile.image.url}}"
+        />
+        <div class="profile_text">
+          <p>{{ user_p }}</p>
+          <div>{{ user_p.profile.message }}</div>
+          <div>
+            {% if button_status == 'not_friend' %}
+            <small
+              ><a
+                class="btn btn-primary"
+                href="{% url 'user:send_friend_request' id=user_p.id %}"
+                >친구 요청</a
+              ></small
+            >
+            {% elif button_status == 'friend_request_sent' %}
+            <small
+              ><a
+                class="btn btn-warning"
+                href="{% url 'user:cancel_friend_request' id=user_p.id %}"
+                >요청 취소</a
+              ></small
+            >
+            {% endif %}
+          </div>
+        </div>
       </li>
+      {% empty %}
+      <p>검색결과 없습니다</p>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+
+  <div style="max-width: 100%" class="row">
+    {% for friend in friends_list %}
+    <div class="card col-sm-6 col-md-4 mx-3 my-3">
+      <li class="profile">
+        <img src="{{friend.image.url}}"/>
+        <div class="profile_text">
+          <div>{{friend}}</div>
+          <div>{{friend.message}}</div>
+        </div>
+      </li>
+    </div>
     {% empty %}
-      <p>친구 없음</p>
+    <p>등록된 친구가 없습니다</p>
+    <p>친구를 추가하여 여행일정을 공유해보세요</p>
     {% endfor %}
+  </div>
+  </div>
 
-
-  {% else %} 
-  {% endif %}
+  {% else %} {% endif %}
 </div>
 
 {% endblock %}

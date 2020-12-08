@@ -23,26 +23,30 @@
     </form>
     </div>
     <div>
-
-		<h3>친구</h3>
-		
-		{% for friend in friends_list %}
-			<a href="{{ friend.user.profile.get_absolute_url }}">{{ friend.user.username }}</a>
-		{% endfor %}
-		<hr>
-		<h3>보낸 친구 요청</h3>
+		<h5>보낸 친구 요청</h5>
 		<ul>
 		{% for s_request in sent_friend_requests %}
 			<li>{{ s_request.to_user.username }}</li>
+		{% empty %}
+		<a href="{% url 'user:search' %}"> 친구 요청하기</a>
 		{% endfor %}
 		</ul>
 		<hr>
-		<h3>받은 친구 요청</h3>
+		<h5>받은 친구 요청</h5>
 		
 		{% for r_request in rec_friend_requests %}
-			<p><a href="{{ r_request.from_user.profile.get_absolute_url }}">{{ r_request.from_user.username }}</a></p>
-			<small><a class='btn btn-primary' href="{% url 'user:accept_friend_request' id=r_request.from_user.id %}">Accept</a></small>
-			<small><a class='btn btn-warning' href="{% url 'user:delete_friend_request' id=r_request.from_user.id %}">Ignore</a></small>
+		<div class="profile">
+		<!--
+		<img src="{{r_request.from_user.profile.image.url}}">
+		-->
+		<div class="profile_text">
+			<p>{{ r_request.from_user.username }}</p>
+			<small><a class='btn btn-primary' href="{% url 'user:accept_friend_request' id=r_request.from_user.id %}">수락</a></small>
+			<small><a class='btn btn-warning' href="{% url 'user:delete_friend_request' id=r_request.from_user.id %}">거절</a></small>
+		</div>
+		</div>
+		{% empty %}
+		<p>요청이 없습니다</p>
 		{% endfor %}
 		
 
