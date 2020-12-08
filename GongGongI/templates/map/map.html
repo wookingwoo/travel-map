@@ -1,65 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>atrraction 마커 찍기</title>
-    <style>
-        {margin:0;}
-        #map {position: absolute; z-index: 0;}
-        .all_wrapper {padding: 20px;}
-        .search_wrap, .search_wrap * {margin:5px 0 0 0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:15px;}
-        .search_wrap a, .search_wrap a:hover, .search_wrap a:active{color:#000;text-decoration: none;}
-        .search_wrap {position: relative;width:100%; height: 33px;}
-        #menu_wrap {position:absolute;top:0;left:0;bottom:10;width:330px;margin:0;padding:2px;overflow-y:auto;background:rgba(255, 255, 255, 0.9);z-index: 1;font-size:12px;border-radius: 10px; box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);}
-        .bg_white {background:#fff;}
-        #keyword {width:200px;}
-        #menu_wrap .option{padding: 0 10px; height: 30px;}
-        #menu_wrap .option p {margin:10px 0;}
-        #menu_wrap .option button {margin-left:15px;}
-        #menu_wrap .option span{display: block; width:30px; height:30px; margin:2px 0 0 0 ; float:right; }
-        span.search_icon { background:url(/static/images/search.png) no-repeat; background-size: 25px;}
-        .wrapper {position: relative; width:242px;}
-        .wrapper, .wrapper * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-        #category {position: relative;top:15px;left:0;border-radius: 10px; border:1px solid rgba(0, 0, 0, 0);box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);background: rgba(255, 255, 255, 0.8); overflow: hidden;z-index: 2; margin-bottom: 10px; padding: 1px;
-            width: 100%;}
-        #category li {font-weight: 600; font-size: 12px; color:rgba(0, 0, 0, 0.7); margin-top:0;float:left;list-style: none;width:79px;border-right:1px solid #acacac;padding:6px 0px 2px 0px;text-align: center; cursor: pointer;}
-        #category li.on {background: #ebebeb;}
-        #category li:hover { border-left:1px solid #acacac;margin-left: -1px;}
-        #category li:last-child{margin-right:0;border-right:0;}
-        #category li span {display: block;margin:0 auto 3px;width:25px;height: 25px;}
-        #category li .category_restaurant { background:url(/static/images/restaurant.png) no-repeat; background-size: 25px; margin-bottom: 6px;}
-        #category li .category_attractions { background:url(/static/images/attractions.png) no-repeat; background-size: 25px; margin-bottom: 6px;}
-        #category li .gps { background:url(/static/images/location-icon.png) no-repeat; background-size: 25px; margin-bottom: 6px;}
-        .gps_wrapper{margin:0; padding: 0; position: relative; z-index: 1; width:52px;}
-        .gps_wrapper, .gps_wrapper * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+{% extends "user/base.html" %}
 
-
-        .placeinfo_wrap {position:absolute;bottom:20px;left:-120px;width: 250px;}
-        .placeinfo {position:relative;width:100%;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;padding-bottom: 10px;background: #fff;}
-        .placeinfo:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-        .placeinfo_wrap .after {content:'';position:relative;margin-left:-12px;left:50%;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-        .placeinfo span {display: block;text-overflow: initial; white-space: initial;}
-        .placeinfo span {/*margin:5px 5px 0 5px;*/cursor: default;font-size:13px;}
-        .placeinfo .title {font-weight: bold; font-size:11px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;}
-        .placeinfo .ptitle {font-weight: bold; border-radius: 6px 6px 0 0; margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #f99639;}
-        .placeinfo .ptitle h1 {font-size: 16px;}
-        .placeinfo .ptitle p {font-size: 16px;}
-
-        .placeinfo .tel {padding-left:2px; color:rgba(0, 0, 0, 0.8); font-size:15px;}
-        .placeinfo .time_at {font-size: 14px;}
-        .placeinfo .info_content {line-height: 1.5;}
-        .placeinfo .addr {color: #888}
-        .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
-        .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
-        .info .title {padding: 10px 0 0 10px;height: 25px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
-        .info .body {position: relative;overflow: hidden; padding: 5%;}
-        .info .desc {position: relative; height: 75px;}
-        .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
-        .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
-    </style>
-
-</head>
-<body>
+{% block title %}
+공공의 맛
+{% endblock %}
+{% block content %}
 <div id="map" style="width:100%;height:630px;"></div>
 <div class = "all_wrapper">
     <div class="search_wrap">
@@ -75,13 +19,14 @@
     </div>
     <div class="wrapper">
         <ul id="category">
-            <li id="mask"> <span class="category_restaurant" onclick="markRestaurant()" title="안심식당 띄우기"></span>안심식당 보기 </li>
+            <li id="mask"> <span class="category_restaurant" onclick="markRestaurants()" title="안심식당 띄우기"></span>안심식당 보기 </li>
             <li id="hospital"> <span class="category_attractions" onclick="markAttractions()" title="관광지 띄우기"></span>관광지 보기 </li>
             <li> <span class="gps" title="현재 위치 추적" onclick="onClickGPS()"></span>나의 위치</li>
         </ul>
     </div>
+</div>
 
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1f01373d522d7b39eb6a55009659d8e9"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1f01373d522d7b39eb6a55009659d8e9&libraries=services"></script>
     <script>
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
@@ -119,7 +64,6 @@
 
         }
 
-
         // 지도에 마커와 인포윈도우를 표시하는 함수입니다
         function displayMarker(locPosition, message) {
 
@@ -145,60 +89,8 @@
             map.setCenter(locPosition);
         }
 
-        // var gps_use = null // gps 승인 여부
-        // var gps_lat = null // 위도
-        // var gps_lng = null // 경도
-        // var gps_position
-        //
-        // gps_check() // 접속하자마자 gps 반환 여부와 위도와 경도를 반환
-        //
-        // function showLocation(position) { // gps를 반환할 수 있다면
-        //     gps_use = true
-        //     gps_lat = position.coords.latitude
-        //     gps_lng = position.coords.longitude
-        // }
-        //
-        // function errorHandler(error) { // gps를 반환할 수 없다면
-        //     if(error.code == 1) {
-        //         alert("접근차단. 크롬 브라우저 사용을 권장합니다.")
-        //     } else if( err.code == 2) {
-        //         alert("위치를 반환할 수 없습니다.")
-        //     }
-        //     gps_use = false
-        // }
-        //
-        // function gps_check(){
-        //     if (navigator.geolocation) {
-        //         var options = {timeout:60000}
-        //         navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options)
-        //     } else {
-        //         alert("GPS_추적이 불가합니다.")
-        //         gps_use = false
-        //     }
-        // }
-        //
-        //
-        // // 나의위치찾기 버튼을 클릭하였을 때 호출되는 함수입니다.
-        // function onClickGPS() {
-        //     gps_check()
-        //     // #changeCategoryClass(this)
-        //     if (gps_use) {
-        //         map.panTo(new kakao.maps.LatLng(gps_lat, gps_lng))
-        //         var gps_content = '<div><img class="pulse" draggable="false" unselectable="on" src="https://ssl.pstatic.net/static/maps/m/pin_rd.png" alt=""></div>';
-        //         var currentOverlay = new kakao.maps.CustomOverlay({
-        //             position: new kakao.maps.LatLng(gps_lat, gps_lng),
-        //             content: gps_content,
-        //         })
-        //         currentOverlay.setMap(map)
-        //     } else {
-        //         alert("접근차단하신 경우 새로고침, 아닌 경우 잠시만 기다려주세요.")
-        //         gps_check()
-        //     }
-        // }
-
         function markAttractions() {
             var attractions = JSON.parse("{{ attractionJson|escapejs }}");
-            console.log(attractions)
             var positions = [];
             for (var i = 0; i < Object.keys(attractions).length; i++) {
                 var content = {
@@ -256,12 +148,30 @@
             }
         }
 
+        function markRestaurants() {
+            var safeRestaurants = JSON.parse("{{ saferestaurantJson|escapejs }}");
+            var positions = [];
 
+            for (var i = 0; i < Object.keys(safeRestaurants).length; i++) {
+                // 주소-좌표 변환 객체를 생성합니다
+                var geocoder = new kakao.maps.services.Geocoder();
 
-
-
-
-
+                // 주소로 좌표를 검색합니다
+                geocoder.addressSearch(safeRestaurants[i].주소, function(result, status) {
+                    // 정상적으로 검색이 완료됐으면
+                    if (status === kakao.maps.services.Status.OK){
+                        var content = {
+                            title: attractions[i].사업장명,
+                            latlng: new kakao.maps.LatLng(result[0].y, result[0].x),
+                            addr1: attractions[i].주소,
+                            detail: "디테일입니다 추후 추가예정",
+                            tel: attractions[i].전화번호,
+                        }
+                        positions.push(content);
+                    }
+                });
+            };
+            console.log(positions);
+        }
     </script>
-</body>
-</html>
+{% endblock %}
