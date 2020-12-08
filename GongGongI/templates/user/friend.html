@@ -8,7 +8,10 @@
   class="my-5 ml-3"
 >
   {% if user.is_authenticated %}
-  <p>{{ user.email }}로그인 중</p>
+  <ul>
+    <li><a href="{% url 'user:grouplist' %}">그룹목록</a></li>
+    <li><a href="{% url 'user:search' %}">친구목록</a></li>
+  </ul>
 
   <form class="form-line my-2" action="{% url 'user:search' %}" method="get">
     {% csrf_token %}
@@ -67,7 +70,21 @@
     <p>검색결과 없습니다</p>
     {% endfor %}
   </ul>
-  {% endif %} {% else %} {% endif %}
+  {% endif %} 
+  
+    {% for friend in friends_list %}
+      <li>
+        <img src="{{friend.image.url}}" style="width:10rem; height:10rem; border-radius:10rem; margin:1rem 0">
+        <div>{{friend}}</div>
+        <div>{{friend.message}}</div>
+      </li>
+    {% empty %}
+      <p>친구 없음</p>
+    {% endfor %}
+
+
+  {% else %} 
+  {% endif %}
 </div>
 
 {% endblock %}
