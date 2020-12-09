@@ -90,7 +90,7 @@ def comment_new(request, post_pk):
         form = CommentForm()
     return render(request, 'map/index.html', {
         'form': form,
-        'commentedit' : "true"
+        'commentnew' : "true"
     })
 
 
@@ -112,7 +112,8 @@ def comment_edit(request, post_pk, pk):
         form = CommentForm(instance=comment)
     return render(request, 'map/index.html', {
         'form': form,
-        'commentedit' : "true"
+        'commentedit' : "true",
+
     })
 
 
@@ -127,6 +128,8 @@ def comment_delete(request, post_pk, pk):
         comment.delete()
         return redirect("/route/", post_pk)
 
-    return render(request, 'map/comment_confirm_delete.html', {
+    return render(request, 'map/index.html', {
         'comment': comment,
+        'commentdelete' : "true",
+
     })
