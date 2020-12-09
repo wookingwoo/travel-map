@@ -88,8 +88,9 @@ def comment_new(request, post_pk):
 
     else:
         form = CommentForm()
-    return render(request, 'map/comment_form.html', {
+    return render(request, 'map/index.html', {
         'form': form,
+        'commentedit' : "true"
     })
 
 
@@ -109,8 +110,9 @@ def comment_edit(request, post_pk, pk):
 
     else:
         form = CommentForm(instance=comment)
-    return render(request, 'map/comment_form.html', {
+    return render(request, 'map/index.html', {
         'form': form,
+        'commentedit' : "true"
     })
 
 
