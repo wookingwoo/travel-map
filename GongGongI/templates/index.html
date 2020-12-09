@@ -1,21 +1,30 @@
-{% extends "user/base.html" %}
+{% extends "user/base.html" %} 
+{% load static %} 
 
-{% block title %}
-공공의 맛
-{% endblock %}
+{% block title %} 공공의 맛 {% endblock %}
+
 {% block content %}
-<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh;">
-    index page
-    {% if user.is_authenticated %}
-    <p>{{ user.email }}로그인 중</p>
-    <form method="post" action="{% url 'account_logout' %}">
-        {% csrf_token %}
-        {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-        {% endif %}
-        <button type="submit" class="btn btn-secondary">로그아웃</button>
-    </form>
-    {% else %}
-    {% endif %}
+<div
+  style="
+    height: 80vh;
+  "
+>
+<div class="index-text">
+  <p style="font-size:small; margin-bottom: 0.2rem ;">안심식당, 착한가격업소, 전통시장과 함께</p>
+  <h2 style="margin-bottom: 2.5rem ;">여행을 계획하세요!</h2>
+  <p style="font-size:large">앱 다운로드</p>
+<div>
+
+<div class="app-icon">
+  <img src="{% static 'images/android.png' %}" />
+  <img src="{% static 'images/apple.png' %}" />
+</div>
+
+    <div class="index">
+    <img src="{% static 'images/index1.png' %}" />
+    <img src="{% static 'images/index2.png' %}" />
+    <img src="{% static 'images/index3.png' %}" />
+  </div>
+
 </div>
 {% endblock %}
