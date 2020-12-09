@@ -137,8 +137,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+#로컬
+#SITE_ID = 5
+SITE_ID = 6
 
-SITE_ID = 5
 LOGIN_REDIRECT_URL = '/'
 
 SOCIALACCOUNT_PROVIDERS = {
