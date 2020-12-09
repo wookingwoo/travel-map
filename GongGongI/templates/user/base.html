@@ -45,6 +45,10 @@
       .mx-auto {
         margin-right: 0 !important;
       }
+
+      .navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link{
+        color:rgba(255, 94, 62, 1);
+      }
     </style>
       
       
@@ -118,7 +122,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="/">홈</a>
+            <a class="nav-link" href="/">홈</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/map/">주변추천</a>
@@ -180,6 +184,11 @@
       $("#closeModalBtn").on("click", function () {
         $("#modalBox").modal("hide");
       });
+      $(document).ready(function() {
+        $('li.active').removeClass('active');
+        $('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 
+      });
     </script>
+    
   </body>
 </html>
