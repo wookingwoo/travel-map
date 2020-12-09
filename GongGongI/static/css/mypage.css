@@ -1,0 +1,42 @@
+.mypage {
+  display: flex;
+  justify-content: space-evenly;
+  height: fit-content;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.mypage-user {
+  width: 30%;
+  text-align: center;
+  height: fit-content;
+}
+
+.notice {
+  width: 70%;
+}
+
+.logout {
+  text-align: center;
+  margin: 50px;
+}
+
+@media screen and (max-width: 768px) {
+  h4.title {
+    margin-bottom: 25px !important;
+  }
+
+  .mypage {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mypage-user {
+    width: 50%;
+  }
+
+  .notice {
+    width: 80%;
+    margin-top: 55px;
+  }
+}

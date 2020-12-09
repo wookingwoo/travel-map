@@ -7,14 +7,14 @@
 
 <div
   style="display: flex; flex-direction: column; height: 80vh"
-  class="mt-2 ml-3"
+  class="mt-2 mx-3"
 >
   {% if user.is_authenticated %}
   <ul class="menu">
     <li><a class="btn" href="{% url 'user:grouplist' %}">그룹목록</a></li>
     <li><a class="btn" href="{% url 'user:search' %}">친구목록</a></li>
   </ul>
-  <div>
+  <div style="padding:4px 15px">
   <form class="form-line my-2" action="{% url 'user:search' %}" method="get">
     {% csrf_token %}
     <div
@@ -41,19 +41,21 @@
     </div>
   </form>
 
-  <div style="border: solid 1px">
-    {% if query %}
+  {% if query %}
+  <div style="max-width:25rem; border: 1px solid #ced4da; padding: 15px 25px;">
     <p>{{ query }} 검색결과</p>
     <ul>
       {% for user_p in users %}
-      <li class="profile">
+      <li class="profile result">
         <img
           src="{{user_p.profile.image.url}}"
         />
         <div class="profile_text">
           <p>{{ user_p }}</p>
-          <div>{{ user_p.profile.message }}</div>
-          <div>
+          <p>{{ user_p.profile.message }}</p>
+          
+        </div>
+        <div>
             {% if button_status == 'not_friend' %}
             <small
               ><a
@@ -72,14 +74,15 @@
             >
             {% endif %}
           </div>
-        </div>
       </li>
+      
       {% empty %}
       <p>검색결과 없습니다</p>
       {% endfor %}
     </ul>
-    {% endif %}
   </div>
+  {% endif %}
+
 
   <div style="max-width: 100%" class="row">
     {% for friend in friends_list %}
@@ -93,10 +96,13 @@
       </li>
     </div>
     {% empty %}
-    <p>등록된 친구가 없습니다</p>
-    <p>친구를 추가하여 여행일정을 공유해보세요</p>
+    <div style="padding: 25px;">
+      <p>등록된 친구가 없습니다</p>
+      <p>친구를 추가하여 여행일정을 공유해보세요</p>
+    </div>
     {% endfor %}
   </div>
+  
   </div>
 
   {% else %} {% endif %}

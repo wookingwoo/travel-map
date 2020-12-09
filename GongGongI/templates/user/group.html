@@ -14,9 +14,8 @@
   </ul>
 
   {% if group_list %}
-  <div class="album py-1">
-    <div class="container">
-      <div class="row">
+  <div class="album py-1" style="padding:4px 15px">
+    <div class="row">
         {% for item in group_list %}
         <div class="col-md-3">
           <div class="card mb-3 box-shadow" style="text-align:center;padding:1rem;">
@@ -39,7 +38,6 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 
   {% else %}
