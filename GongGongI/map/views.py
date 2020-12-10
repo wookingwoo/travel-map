@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import json
 
-def showattractions(request):
+def showattractions():
     #with와 json 모듈을 이용해 Json파일 불러오기
     with open('static/json/attractions.json', encoding='utf-8') as json_file:
         attractions = json.load(json_file)['response']['body']['items']['item']
@@ -21,40 +21,64 @@ def showattractions(request):
             else:
                 content['tel'] = ''
             attractiondict.append(content)
+    attractionJson = json.dumps(attractiondict, ensure_ascii=False)
+    return attractionJson
 
+def showsaferests():
     with open('static/json/safe_restaurant.json', encoding='utf-8') as json_file:
         safe_restaurants = json.load(json_file)['data']
-
     restaurantdict = []
     #불러온 json 객체들 중 필요한 데이터만 뽑기
     for restaurant in safe_restaurants:
         content = {
-            "title": restaurant['사업장명'],
-            "tel": str(restaurant['전화번호']),
-            "menu": str(restaurant['업종상세']),
-            "addr": str(restaurant['주소']),
+            "title": restaurant['title'],
+            "tel": str(restaurant['tel']),
+            "menu": str(restaurant['category']),
+            "addr": str(restaurant['addr']),
         }
-    restaurantdict.append(content)
-    print(restaurantdict)
+        restaurantdict.append(content)
+    saferestaurantJson = json.dumps(restaurantdict, ensure_ascii=False)
+    return saferestaurantJson
 
+def showgoodprices():
     with open('static/json/good_price.json', encoding='utf-8') as json_file:
         good_prices = json.load(json_file)['data']
+    goodpricedict = []
+    #불러온 json 객체들 중 필요한 데이터만 뽑기
+    for good_price in good_prices:
+        content = {
+            "title": good_price['title'],
+            "tel": str(good_price['tel']),
+            "menu": str(good_price['category']),
+            "addr": str(good_price['addr']),
+            "mainmenu": str(good_price['mainmenu']),
+            "price": str(good_price['price']),
+        }
+        goodpricedict.append(content)
+    goodpriceJson = json.dumps(goodpricedict, ensure_ascii=False)
+    return goodpriceJson
 
-
+def showmarkets():
     with open('static/json/markets.json', encoding='utf-8') as json_file:
         markets = json.load(json_file)['data']
+    marketdict = []
+    #불러온 json 객체들 중 필요한 데이터만 뽑기
+    for market in markets:
+        content = {
+            "title": market['title'],
+            "menu": str(market['mainmenu']),
+            "addr": str(market['addr1']),
+        }
+        marketdict.append(content)
+    marketsJson = json.dumps(marketdict, ensure_ascii=False)
+    return marketsJson
 
-
-    attractionJson = json.dumps(attractiondict, ensure_ascii=False)
-    saferestaurantJson = json.dumps(restaurantdict, ensure_ascii=False)
-    goodpriceJson = json.dumps(good_prices, ensure_ascii=False)
-    marketsJson = json.dumps(markets, ensure_ascii=False)
+def showmarks(request):
+    attractionJson = showattractions()
+    saferestaurantJson = showsaferests()
+    goodpriceJson = showgoodprices()
+    marketsJson = showmarkets()
 
     return render(request, 'map/map.html', {'attractionJson': attractionJson, 'saferestaurantJson': saferestaurantJson,
                                             'goodpriceJson': goodpriceJson, 'marketsJson': marketsJson})
 
-
-
-
-
-# Create your views here.
